@@ -79,6 +79,16 @@ try {
         }
         $pythonCommand = Get-Command python.exe -ErrorAction SilentlyContinue
         if ($pythonCommand) { $candidates += $pythonCommand.Source }
+        # Discover official installers even when neither PATH nor py lists them.
+        foreach ($registryPath in @(
+            'HKCU:\Software\Python\PythonCore\3.11\InstallPath',
+            'HKLM:\Software\Python\PythonCore\3.11\InstallPath'
+        )) {
+            $entry = Get-ItemProperty -LiteralPath $registryPath -ErrorAction SilentlyContinue
+            if ($entry -and $entry.'(default)') {
+                $candidates += Join-Path $entry.'(default)' 'python.exe'
+            }
+        }
         if ($InstallMode -eq 'venv') { $candidates += "$PSScriptRoot\.venv\Scripts\python.exe" }
         $basePython = $candidates | Where-Object { Test-Python $_ } | Select-Object -First 1
         if (-not $basePython) {
