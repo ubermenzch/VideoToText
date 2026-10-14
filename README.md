@@ -2,19 +2,21 @@
 
 将 YouTube / Bilibili 视频转换为带时间戳和说话人标签的文字，输出 TXT、JSON、SRT、VTT。语音识别、文字对齐和说话人区分都使用本地模型；下载视频、依赖和模型需要联网。
 
-当前自动安装脚本支持 **Windows 10/11 x64 + PowerShell 5.1 或更新版本**。可使用 NVIDIA GPU，也可仅使用 CPU。暂不提供 macOS / Linux 的自动安装流程。
+> **平台限制：本项目目前仅适用于 Windows，尚未适配 Linux 和 macOS。** 自动配置脚本及以下使用命令均为 Windows 专用。
+
+支持 **Windows 10/11 x64 + PowerShell 5.1 或更新版本**。可使用 NVIDIA GPU，也可仅使用 CPU。
 
 ## 三步使用
 
 先安装 Git，以便 clone 项目。首次模型准备前，在 [Hugging Face](https://huggingface.co/) 登录，接受 [community-1 模型访问条件](https://huggingface.co/pyannote/speaker-diarization-community-1)，并创建自己的 [READ Token](https://huggingface.co/settings/tokens)。这个模型要求用户在网页完成授权，脚本不能替代这一步。
 
-在 PowerShell 执行：
+以下步骤仅适用于 Windows，请在 Windows PowerShell 中执行：
 
 ```powershell
 git clone https://github.com/ubermenzch/VideoToText.git
 cd VideoToText
 
-# 默认：虚拟环境，自动检测 NVIDIA GPU，否则使用 CPU
+# Windows 专用自动配置；默认使用虚拟环境，自动检测 GPU，否则使用 CPU
 .\setup.cmd
 
 # 单个视频；请用引号包住整个链接
